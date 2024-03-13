@@ -14,7 +14,6 @@ export const sendMessage = async (req, res) => {
 
     const savedMessage = await newMessage
       .save()
-      
       res.status(200).json({
         success: true,
         data:savedMessage,
@@ -45,3 +44,13 @@ export const getMessage = async (req, res) => {
     res.status(500).json({ message: "Inernal server error" });
   }
 };
+
+export const readMessage = async (req, res) =>{
+  try {
+    const { id } = req.params;
+    const message = await Message.findByIdAndUpdate(id, { isRead: true }, { new: true });
+    res.status(200).json({ success: true });
+  } catch (error) {
+    res.status(500).json({ message: "Inernal server error" });
+  }
+}
